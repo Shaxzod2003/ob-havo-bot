@@ -32,5 +32,6 @@ class DB:
             "username": username,
         }
         self.save()
+        self.db_load()
 
         return True
