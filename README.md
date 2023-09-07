@@ -16,3 +16,12 @@ this is a sample bot for practice.
 
 - python-telegram-bot==13.15
 - python-dotenv==1.0.0
+
+
+# database feature
+
+1. store new user
+2. get user
+3. update user
+4. delete user
+

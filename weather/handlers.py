@@ -3,18 +3,27 @@ from telegram.ext import CallbackContext
 import os
 import requests
 from .temp import FORECAST_TAMP
+from .db import DB
 
+db = DB("db.json")
 
 API_KEY = os.getenv("API_KEY")
 
 
 def start(update: Update, context: CallbackContext):
     """Send a message when the command /start is issued."""
+    user = update.effective_user
+    ans = db.add_user(user.id, user.first_name, user.last_name, user.username)
     
-    update.message.reply_text(
-        text=f"Hello {update.effective_user.first_name}!"
-    )
-
+    print(ans)
+    if ans:
+        update.message.reply_text(
+            text=f"Hello {user.first_name}! Welcome to the bot!"
+        )
+    else:
+        update.message.reply_text(
+            text=f"Hi {user.first_name}! Welcome back to the bot!"
+        )
 
 def send_weather(update: Update, context: CallbackContext):
     """Send a message when the command /start is issued."""
