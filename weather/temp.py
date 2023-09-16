@@ -1,4 +1,4 @@
-FORECAST_TAMP = """Bugun, {weekday}, {day}-{month}
+FORECAST_TAMP = """Bugun, {date}
 {city}
 
 🔹 Hozirgi ob-havo ma'lumoti

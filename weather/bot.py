@@ -21,7 +21,7 @@ dispatcher = updater.dispatcher
 
 def register_handlers():
     dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(MessageHandler(Filters.text, send_weather))
+    dispatcher.add_handler(MessageHandler(Filters.location, send_weather))
 
     updater.start_polling()
     updater.idle()

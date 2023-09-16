@@ -1,37 +1,26 @@
-import json
+from tinydb import TinyDB, Query
+from tinydb.table import Document
 
 
 class DB:
-    def __init__(self, file_name: str) -> None:
-        self.file_name = file_name
-        self.data = {}
-        self.db_load()
+    def __init__(self, file_name: str):
+        self.db = TinyDB(file_name, indent=4)
+        self.users = self.db.table('users')
 
-    def db_load(self) -> None:
-        with open(self.file_name, "r") as f:
-            file_data = f.read()
-            if file_data == "":
-                self.data = {}
-                return None
-            self.data = json.loads(file_data)
+    def is_user(self, chat_id: str) -> bool:
+        return self.users.contains(doc_id=chat_id)
 
-    def save(self) -> None:
-        with open(self.file_name, "w") as f:
-            json.dump(self.data, f, indent=4)
-
-    def is_user(self, chat_id: int) -> bool:
-        return str(chat_id) in self.data
-
-    def add_user(self, chat_id: int, first_name: str, last_name: str, username: str) -> None:
+    def add_user(self, chat_id: str, first_name: str, last_name: str, username: str):
         if self.is_user(chat_id):
             return False
-        self.data[chat_id] = {
-            "first_name": first_name,
-            "first_name": first_name,
-            "last_name": last_name,
-            "username": username,
-        }
-        self.save()
-        self.db_load()
+        
+        user = Document(
+            value={
+                'first_name': first_name,
+                'last_name': last_name,
+                'username': username
+            },
+            doc_id=chat_id
+        )
+        self.users.insert(user)
 
-        return True
